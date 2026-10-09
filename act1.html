@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Act I - The Twin Masquerade</title>
+  <link rel="stylesheet" href="act1.css" />
+</head>
+<body class="curtain-open">
+  <div class="curtain-left"></div>
+<div class="curtain-right"></div>
+  <div class="act-container">
+    <div class="act-content clickable" onclick="hideContent()">
+      <h1 class="act-title">Act I</h1>
+      <p class="act-line">The Twin Crown</p>
+    </div>
+    <img src="assets/act1/1-1.png" alt="Act 1 Scene" class="act-image" id="image1" />
+<img src="assets/act1/1-2.png" alt="Act 1 Scene 2" class="act-image" id="image2" />
+<div class="act-poetry">
+  <p>Two lives, one breath. One soul, split clean.<br />
+  She wore the silk. I scrubbed it lean.<br />
+  The world bowed low beneath her flame<br />
+  And I, the shadow, bore no name.</p>
+</div>
+  </div>
+  <div id="end-text" class="end-text">To be continued...</div>
+
+</body>
+<script>
+  const actContent = document.querySelector('.act-content');
+  const image1 = document.getElementById('image1');
+  const image2 = document.getElementById('image2');
+  const actPoetry = document.querySelector('.act-poetry');
+  const body = document.body;
+  const actContainer = document.querySelector('.act-container');
+
+  actContent.addEventListener('click', () => {
+    actContent.classList.add('hide');
+
+    // Show image1 + poetry
+    setTimeout(() => {
+      image1.classList.add('show');
+      actPoetry.classList.add('show');
+    }, 500);
+  });
+
+  image1.addEventListener('click', () => {
+  image1.classList.add('slide-down');
+
+  // ✅ Start closing curtains immediately
+  body.classList.remove('curtain-open');
+
+  // Change background when curtains are fully closed (1.5s after closing starts)
+  setTimeout(() => {
+    actContainer.style.backgroundImage = "url('assets/act1/bg2.png')";
+  }, 1500); // No delay added
+
+  // Open curtains and show image2
+  setTimeout(() => {
+    body.classList.add('curtain-open');
+    image2.classList.add('show');
+    setTimeout(() => {
+    const endText = document.getElementById('end-text');
+    endText.classList.add('show');
+  }, 3000);
+  }, 2000);
+});
+
+</script>
+
+
+
+
+
+
+</html>

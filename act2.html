@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Act II - The Twin Masquerade</title>
+  <link rel="stylesheet" href="act2.css" />
+</head>
+<body>
+  <div class="act-container">
+    <div class="act-content clickable" onclick="hideContent()">
+      <h1 class="act-title">Act II</h1>
+      <p class="act-line">Her Will, My Hands</p>
+    </div>
+<!-- Back image -->
+<img src="assets/act2/2-2.png" alt="Act 2 Image Back" class="act-image" id="image2" />
+
+<!-- Top image with clip-hole -->
+<img src="assets/act2/2-1.png" alt="Act 2 Image Front" class="act-image" id="image1" />
+
+
+<!-- Magnifier cursor circle -->
+<div class="magnifier-circle"></div>
+
+<div class="chat">
+    <img src="assets/talkballoon.png">
+    <h1>just kill them all</h1>
+</div>
+    <div class="act-poetry">
+      <p>
+        "Burn the fields," she softly spoke.<br />
+        I pulled the strings. I wore the cloak.<br />
+        Her throne was high. Her gaze was ice.<br />
+        My lips stayed shut. My hands broke twice.
+      </p>
+    </div>
+  </div>
+  <div id="end-text" class="end-text">To be continued...</div>
+
+  <script>
+    const chatBubble = document.querySelector('.chat');
+   const actContent = document.querySelector('.act-content');
+const image1 = document.getElementById('image1');
+const image2 = document.getElementById('image2');
+const actPoetry = document.querySelector('.act-poetry');
+const magnifierCircle = document.querySelector('.magnifier-circle');
+
+function hideContent() {
+  actContent.classList.add('hide');
+  setTimeout(() => {
+    actContent.remove(); // Removes it from the DOM completely
+    image1.classList.add('show');
+    image2.classList.add('show');
+    actPoetry.classList.add('show');
+    setTimeout(() => {
+    const endText = document.getElementById('end-text');
+    endText.classList.add('show');
+  }, 3000);
+    setTimeout(() => {
+      chatBubble.classList.add('show');
+
+  }, 1000); 
+  }, 500);
+}
+
+// Only one listener is needed
+actContent.addEventListener('click', hideContent);
+
+// Only works after image1 is shown
+image1.addEventListener('mousemove', (e) => {
+  if (!image1.classList.contains('show')) return;
+
+  const rect = image1.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  magnifierCircle.style.display = 'block';
+  magnifierCircle.style.left = `${e.clientX - magnifierCircle.offsetWidth / 2}px`;
+  magnifierCircle.style.top = `${e.clientY - magnifierCircle.offsetHeight / 2}px`;
+
+  // 👇 Update CSS variables used in the mask
+  const percentX = (x / rect.width) * 100;
+const percentY = (y / rect.height) * 100;
+
+image1.style.setProperty('--x', `${percentX}%`);
+image1.style.setProperty('--y', `${percentY}%`);
+
+  image1.classList.add('masked');
+});
+
+
+image1.addEventListener('mouseleave', () => {
+  magnifierCircle.style.display = 'none';
+  image1.classList.remove('masked');
+});
+
+
+// Cursor only shows when it's meant to
+image1.addEventListener('mouseenter', () => {
+  if (image1.classList.contains('show')) {
+    image1.style.cursor = 'url("assets/cursors/cursor-magnifyer.png"), auto';
+  }
+});
+chatBubble.addEventListener('click', () => {
+    actContent.classList.add('hide');
+    const clickSound = document.getElementById('click-sound');
+    clickSound.volume = 0.3;
+clickSound.currentTime = 0;
+clickSound.play().catch(() => {});
+});
+  </script>
+  <audio id="click-sound" src="assets/act2/hohoho.mp3" preload="auto"></audio>
+
+</body>
+</html>

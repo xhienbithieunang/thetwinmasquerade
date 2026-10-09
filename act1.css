@@ -1,0 +1,184 @@
+/* act1.css */
+
+body, html {
+    background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Cinzel Decorative', serif;
+  cursor: url('assets/cursors/cursor-default.png'), auto;
+}
+a, button, .clickable {
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+}
+.enter-button {
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer !important;
+}
+
+.act-container {
+  position: relative; /* This is critical for absolutely-positioned children */
+  width: 100%;
+  height: 100%;
+  opacity: 100%;
+  background-image: url('assets/act1/bg1.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.curtain-left,
+.curtain-right {
+  position: fixed;
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  z-index: 999;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 1.5s ease;
+  pointer-events: none; /* makes sure clicks go through */
+}
+
+.curtain-left {
+  left: 0;
+  transform: translateX(10%);
+  background-image: url('assets/main_page/curtainL.png');
+}
+
+.curtain-right {
+  right: 0;
+  transform: translateX(0%);
+  background-image: url('assets/main_page/curtainR.png');
+}
+.curtain-open .curtain-left {
+  transform: translateX(-100%);
+}
+.curtain-open .curtain-right {
+  transform: translateX(100%);
+}
+
+
+.act-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0px 60px;
+  border-radius: 20px;
+  text-align: center;
+  color: gold;
+  max-width: 80%;
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+}
+body.curtain-open .curtain-left {
+  transform: translateX(-100%);
+}
+
+body.curtain-open .curtain-right {
+  transform: translateX(100%);
+}
+.act-title {
+  font-size: 64px;
+  margin-bottom: 20px;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+.act-line {
+  font-size: 28px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+.act-content.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+/* Image hidden and positioned off-screen initially */
+.act-image {
+  position: absolute;
+  bottom: -50%;
+  left: 47%;
+  transform: translateX(-50%) scale(0.8) rotate(0deg);
+  max-height: 80%;
+  opacity: 0;
+  pointer-events: none;
+  transition: bottom 0.6s ease-out, opacity 0.5s ease;
+  z-index: 2;
+}
+
+.act-image.show {
+  bottom: 0%;
+  opacity: 1;
+  animation: sway 2s ease-in-out infinite;
+}
+#image1.show {
+  pointer-events: auto;
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+}
+
+
+@keyframes sway {
+  0%   { transform: translateX(-50%) scale(0.8) rotate(-2deg); }
+  50%  { transform: translateX(-50%) scale(0.8) rotate(2deg); }
+  100% { transform: translateX(-50%) scale(0.8) rotate(-2deg); }
+}
+
+.act-poetry {
+  position: absolute;
+  top: 25%;
+  left: 28%;
+  transform: translateX(-50%);
+  color: rgb(255, 255, 255);
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+  z-index: 3;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.6),
+    4px 4px 8px rgba(0, 0, 0, 0.5),
+    6px 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+.act-poetry.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* New fade-out animation for image1 */
+.act-image.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* Slide down animation */
+.act-image.slide-down {
+  bottom: -100%;    /* Slide off screen */
+  opacity: 0;
+  transition: bottom 0.6s ease, opacity 0.6s ease;
+}
+.end-text {
+  position: absolute;
+  bottom: 13%;
+  left: 75%;
+  transform: translateX(-50%);
+  color: gold;
+  font-size: 36px;
+  font-family: 'Cinzel Decorative', serif;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 9999;
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+.end-text.show {
+  opacity: 1;
+}

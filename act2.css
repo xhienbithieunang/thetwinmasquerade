@@ -1,0 +1,258 @@
+/* act2.css */
+
+body, html {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Cinzel Decorative', serif;
+  cursor: url('assets/cursors/cursor-default.png')75 75, auto;
+}
+
+a, button, .clickable {
+  cursor: url('assets/cursors/cursor-pointer.png')75 75, pointer;
+}
+
+.act-container {
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/act2/bg2.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Text block */
+.act-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0px 60px;
+  border-radius: 20px;
+  text-align: center;
+  color: gold;
+  max-width: 80%;
+  z-index: 2;
+  cursor: url('assets/cursors/cursor-pointer.png')75 75, pointer;
+}
+
+.act-title {
+  font-size: 64px;
+  margin-bottom: 20px;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+.act-line {
+  font-size: 28px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.act-content.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+    z-index: -1;         /* Send it behind everything */
+  transform: scale(0); /* Visually collapse it */
+}
+
+/* Animated Images */
+.act-image {
+  position: absolute;
+  bottom: -100px; /* ✅ Start off-screen */
+  left: 50%;
+  transform: translateX(-50%) scale(0.8) rotate(0deg);
+  opacity: 0;
+  transition: bottom 0.6s ease, opacity 0.6s ease;
+  pointer-events: none;
+  max-height: 80%;
+}
+
+
+#image1 {
+  transform: translateX(-55%) scale(0.8) rotate(0deg);
+  z-index: 1;
+}
+#image2 {
+  transform: translateX(-45%) scale(0.8) rotate(0deg);
+  z-index: 2;
+}
+
+.act-image.show {
+  opacity: 1;
+  bottom: 0%;
+  animation: sway 2s infinite ease-in-out;
+}
+
+@keyframes sway {
+  0%   { transform: translateX(-50%) scale(0.8) rotate(-2deg); }
+  50%  { transform: translateX(-50%) scale(0.8) rotate(2deg); }
+  100% { transform: translateX(-50%) scale(0.8) rotate(-2deg); }
+}
+/* New poetry style */
+.act-poetry {
+  position: absolute;
+  top: 25%;
+  left: 71%;
+  transform: translateX(-50%);
+  color: rgb(255, 255, 255);
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+  z-index: 3;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.6),
+    4px 4px 8px rgba(0, 0, 0, 0.5),
+    6px 6px 12px rgba(0, 0, 0, 0.4);
+}
+.act-poetry.show {
+  opacity: 1;
+}
+
+/* Change image entry animation */
+.act-image {
+  position: absolute;
+  bottom: -100px; /* Start below the screen */
+  left: 45%;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.8) rotate(0deg);
+  transition: bottom 0.6s ease, opacity 0.6s ease;
+  max-height: 80%;
+  pointer-events: none;
+}
+
+
+/* Optional: fine-tune positions */
+#image1 {
+  transform: translateX(-55%) scale(0.8) rotate(0deg);
+  z-index: 1;
+   pointer-events: none;
+}
+#image1.show {
+  pointer-events: auto; /* Enable after appearing */
+  cursor: url("assets/cursors/cursor-magnifyer.png") 75 75, auto;
+
+}
+#image2.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+#image2 {
+  transform: translateX(-45%) scale(0.8) rotate(0deg);
+  z-index: 1;
+  
+}
+.act-image:hover {
+  cursor: url("assets/cursors/cursor-magnifyer.png") 75 75, auto;
+
+}
+
+/* Sway animation */
+@keyframes sway {
+  0%   { transform: translateX(-50%) scale(0.8) rotate(-2deg); }
+  50%  { transform: translateX(-50%) scale(0.8) rotate(2deg); }
+  100% { transform: translateX(-50%) scale(0.8) rotate(-2deg); }
+}
+.magnifier-wrapper {
+  position: absolute;
+  top: 20%; /* match existing image2 top */
+  left: 45%; /* match existing image2 left */
+  transform: translateX(-45%);
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+.magnifier-circle {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.6); /* or remove border if you want cleaner look */
+  pointer-events: none;
+  z-index: 10;
+  display: none;
+  background-color: transparent; /* ← remove the fade */
+  box-shadow: none;              /* ← also remove soft glow */
+}
+
+
+.magnifier-layer {
+  cursor: url("assets/cursors/cursor-magnifyer.png") 75 75, auto;
+
+}
+#image1.masked {
+  -webkit-mask-image: radial-gradient(circle 200px at var(--x) var(--y), transparent 0%, black 100%);
+  mask-image: radial-gradient(circle 200px at var(--x) var(--y), transparent 50%, black 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.chat {
+  position: absolute;
+  top: 30%;
+  left: 18%;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  width: 300px;
+  pointer-events: none;
+   animation: sway2 2s infinite ease-in-out;
+}
+
+.chat img {
+  width: 100%;
+  display: block;
+  transform: scaleX(-1); /* Flip horizontally */
+}
+
+
+.chat h1 {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
+  color: white;
+  font-size: 18px;
+  font-family: 'Cinzel Decorative', serif;
+  text-align: center;
+  pointer-events: none;
+  padding: 0 10px;
+  width: 80%;
+}
+
+.chat.show {
+  opacity: 1;
+pointer-events: auto;
+cursor: url('assets/cursors/cursor-pointer.png')75 75, pointer;
+
+}
+@keyframes sway2 {
+  0%   { transform: rotate(2deg); }
+  50%  { transform:  rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+.end-text {
+  position: absolute;
+  bottom: 13%;
+  left: 75%;
+  transform: translateX(-50%);
+  color: gold;
+  font-size: 36px;
+  font-family: 'Cinzel Decorative', serif;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 9999;
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+.end-text.show {
+  opacity: 1;
+}

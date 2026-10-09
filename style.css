@@ -1,0 +1,243 @@
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  cursor: url('assets/cursors/cursor-default.png'), auto;
+}
+
+a, button, .clickable {
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+}
+.enter-button {
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer !important;
+}
+
+#container {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  transform-origin: center;
+}
+
+
+#stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  z-index: 1;
+}
+
+
+
+iframe {
+  width: 1920px;
+  height: 1080px;
+  border: none;
+  z-index: 1;
+  position: relative;
+}
+
+
+/* Curtains */
+.curtain {
+    
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  z-index: 2;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+}
+
+
+
+.curtain.left {
+  left: 0;
+  background-image: url('assets/main_page/curtainL.png');
+  transform:translateX(+20%);
+}
+
+.curtain.right {
+  right: 0;
+  background-image: url('assets/main_page/curtainR.png');
+  transform:translateX(0%);
+}
+
+/* Center Curtain Image */
+.curtain.center {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+   transform: translateX(-50%) scale(1.0); /* scale up the image */
+  height: 130%;
+  width: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Frame */
+.frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2010px;
+  height: 1170px;
+  z-index: 5;
+  background-image: url('assets/main_page/frame.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+
+.poetry-title {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 100px;
+  color: gold;
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    2px 2px 2px rgba(0, 0, 0, 0.6);
+  z-index: 4;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.enter-button {
+  position: absolute;
+  top: 55%; /* below the title */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  border: 2px solid gold;
+  color: gold;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 24px;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 4;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.enter-button:hover {
+  background-color: gold;
+  color: black;
+}
+
+.curtain.left,
+.curtain.right {
+  transition: transform 2s ease;
+}
+
+.curtain.open-left {
+  transform: translateX(-100%);
+}
+
+.curtain.open-right {
+  transform: translateX(100%);
+}
+
+.poetry-title.hide,
+.enter-button.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.scale-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 1;
+  pointer-events: auto;
+
+}
+
+
+#nav-prev {
+  position: absolute;
+  left: 3vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 150px;
+  z-index: 1000;
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+  pointer-events: auto;
+  background-image: url('assets/main_page/arrow.png');
+transform: scaleX(-1);
+
+}
+
+#nav-next {
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+pointer-events: auto;
+  position: absolute;
+  right: 4vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 150px;
+  z-index: 1000;
+  background-image: url('assets/main_page/arrow.png');
+
+}
+
+#muteToggle {
+  position: fixed;
+  bottom: 65%;
+  right: 3%;
+  width: 150px;
+  height: 150px;
+  z-index: 1000;
+  opacity: 1;
+  cursor: url('assets/cursors/cursor-pointer.png'), pointer;
+  pointer-events: auto;
+  background-image: url('assets/main_page/unmute.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(-50%, -50%) ;
+  transition: 0.3s;
+}
+
+#muteToggle.mute-muted {
+  background-image: url('assets/main_page/mute.png');
+}

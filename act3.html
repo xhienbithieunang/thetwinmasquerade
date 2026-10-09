@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Act III - The Twin Masquerade</title>
+  <link rel="stylesheet" href="act3.css" />
+</head>
+<body class="curtain-open">
+
+    <div class="curtain-left"></div>
+<div class="curtain-right"></div>
+
+  <div class="act-container">
+    <!-- ACT CONTENT -->
+    <div class="act-content clickable" onclick="hideContent()">
+      <h1 class="act-title">Act III</h1>
+      <p class="act-line">The Girl in Green</p>
+    </div>
+
+    <!-- IMAGES -->
+     <div class="chat">
+  <img src="assets/talkballoon.png" alt="Chat Balloon">
+  <h1>!!!!</h1>
+</div>
+<div class="chat2"> 
+  <img src="assets/talkballoon.png" alt="Chat Balloon">
+  <h1>I'll eliminate her</h1> 
+</div>
+
+     <img src="assets/act3/3-1-2.png" alt="Act 3 Image Right" class="act-image" id="image2" />
+    <img src="assets/act3/3-1-1.png" alt="Act 3 Image Left" class="act-image" id="image1" />
+<img src="assets/act3/3-2-2.png" alt="Act 3 Image New Right" class="act-image phase2" id="image4" />
+<img src="assets/act3/3-2-1.png" alt="Act 3 Image New Left" class="act-image phase2" id="image3" />
+
+    <!-- POETRY -->
+    <div class="act-poetry">
+      <p>
+        She touched his hand. The queen’s eyes burned.<br/>
+        A hush, then crack—her smile turned.<br/>
+        Her fingers curled. Her lips went thin:<br/>
+        "If I can’t have him—no one wins."
+      </p>
+    </div>
+  </div>
+  <div id="end-text" class="end-text">To be continued...</div>
+
+  <script>
+    const chat2 = document.querySelector('.chat2');
+  const actContent = document.querySelector('.act-content');
+const actContainer = document.querySelector('.act-container');
+const image1 = document.getElementById('image1');
+const image2 = document.getElementById('image2');
+const actPoetry = document.querySelector('.act-poetry');
+const chatBubble = document.querySelector('.chat');
+const body = document.body;
+const image3 = document.getElementById('image3');
+const image4 = document.getElementById('image4');
+
+
+actContent.addEventListener('click', () => {
+  actContent.classList.add('hide');
+
+  setTimeout(() => {
+    actContent.remove();
+    actContainer.classList.add('pan-bg');
+    image1.classList.add('show');
+    image2.classList.add('show'); // ✅ this works now
+     image2.classList.add('move-left');
+    actPoetry.classList.add('show');
+  }, 500);
+
+  // Show chat after 4s
+  setTimeout(() => {
+    chatBubble.classList.add('show');
+  }, 4000);
+
+  // 👇 Close curtain after 17s
+  setTimeout(() => {
+    body.classList.remove('curtain-open');
+  }, 17000);
+
+ // 👇 After curtain closes (18.5s), change BG + hide images + chat
+setTimeout(() => {
+  actContainer.style.backgroundImage = "url('assets/act3/BG2.png')";
+  image1.classList.remove('show');
+  image2.classList.remove('show');
+  chatBubble.classList.remove('show');
+image3.classList.add('show-phase2', 'shake');
+}, 18500);
+
+  // 👇 Reopen curtain after 3s
+  setTimeout(() => {
+    body.classList.add('curtain-open');
+    setTimeout(() => {
+    const endText = document.getElementById('end-text');
+    endText.classList.add('show');
+  }, 3000);
+  }, 21500);
+  
+  // THEN show new images at 22s (after curtain opened)
+setTimeout(() => {
+  image4.classList.add('show-phase2');
+}, 22000);
+});
+image4.addEventListener('click', () => {
+  chat2.classList.add('show');
+});
+image4.addEventListener('click', () => {
+  chat2.classList.add('show');
+  setTimeout(() => {
+    chat2.classList.remove('show');
+  }, 2000); // Hide after 4 seconds
+ 
+});
+chatBubble.addEventListener('click', () => {
+    actContent.classList.add('hide');
+    const clickSound = document.getElementById('click-sound');
+clickSound.currentTime = 0;
+clickSound.volume = 1; // ✅ Set volume here where it's defined
+
+clickSound.play().catch(() => {});
+});
+image3.addEventListener('click', () => {
+    actContent.classList.add('hide');
+    const clickSound2 = document.getElementById('click-sound2');
+clickSound2.currentTime = 0;
+clickSound2.play().catch(() => {});
+});
+</script>
+
+<audio id="click-sound" src="assets/act3/gasp.mp3" preload="auto"></audio>
+<audio id="click-sound2" src="assets/act3/cry.mp3" preload="auto"></audio>
+
+</body>
+</html>

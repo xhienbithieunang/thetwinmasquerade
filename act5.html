@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Act V - The Final Masquerade</title>
+  <link rel="stylesheet" href="act5.css" />
+</head>
+<body class="curtain-open">
+    <div class="curtain-left"></div>
+<div class="curtain-right"></div>
+  <div class="act-container">
+    <!-- ACT CONTENT -->
+    <div class="act-content clickable">
+      <h1 class="act-title">Act V</h1>
+      <p class="act-line">The Final Masquerade</p>
+    </div>
+
+    <!-- PHASE 1 IMAGES -->
+    <div class="image-wrapper phase2">
+        <img src="assets/act5/5-1-1.png" id="image4" class="act-image" />
+        <div id="reveal-wrapper" class="reveal-mask">
+          <img src="assets/act5/5-1-2.png" id="image3" class="act-image reveal-top" />
+        </div>
+      </div>
+      <div id="cursor-ring"></div>
+      <img src="assets/act5/5-2-1.png" id="image1" class="maychem" />
+      <img src="assets/act5/5-2-2.png" id="image2" class="maychem" />
+
+
+<!-- POETRY -->
+<div class="act-poetry">
+    <p>
+        Her dress on me. Her crown, my chain.<br/>
+        I faced the mob. I bore their stain.<br/>
+        She slipped away, a dove in flight.<br/>
+        I closed my eyes—then came the night.
+    </p>
+  </div>
+
+  </div>
+  <div id="red-overlay"></div>
+  <div id="end-text">The End.</div>
+
+  <script>
+    const actContent = document.querySelector('.act-content');
+    const imageWrapper = document.querySelector('.image-wrapper');
+    const revealWrapper = document.getElementById('reveal-wrapper');
+    const cursorRing = document.getElementById('cursor-ring');
+    const topImage = document.getElementById('image3');
+    const botImage = document.getElementById('image4');
+    const image1 = document.getElementById('image1');
+    const image2 = document.getElementById('image2');
+    const actPoetry = document.querySelector('.act-poetry');
+    const body = document.body;
+    const actContainer = document.querySelector('.act-container');
+    const bg3 = document.getElementById('bg3'); // Optional — remove if you don’t use it
+    
+    actContent.addEventListener('click', () => {
+      actContent.classList.add('hide');
+    
+      setTimeout(() => {
+        actPoetry.classList.add('show');
+      }, 1000);
+    
+      setTimeout(() => {
+        actContent.remove();
+        imageWrapper.classList.add('show-phase2');
+      }, 500);
+    
+      setTimeout(() => {
+  // STEP 1: Close curtain
+  body.classList.remove('curtain-open');
+
+  // STEP 2: After 1.5s (curtain closed), hide images
+  setTimeout(() => {
+    // Hide phase 1 images
+    topImage.classList.remove('show');
+    botImage.classList.remove('show');
+    topImage.classList.add('hide');
+    botImage.classList.add('hide');
+    revealWrapper.classList.remove('show');
+revealWrapper.style.display = 'none'; // optional hard removal
+cursorRing.style.display = 'none';
+imageWrapper.classList.add('disabled');
+
+    // STEP 3: After images hidden (0.5s delay), switch BG and reopen curtain
+    setTimeout(() => {
+      // Change background
+      actContainer.style.backgroundImage = "url('assets/act5/BG2.png')";
+
+      // Show phase 2
+      const warButton = document.getElementById('war-button');
+      if (warButton) warButton.classList.add('show');
+      image1.classList.add('show-phase2');
+      if (bg3) bg3.classList.add('show-phase2');
+
+      // Force reflow
+      void body.offsetWidth;
+      image2.classList.add('show-phase2');
+
+// Wait until styles are applied and layout is complete
+setTimeout(() => {
+  if (!image2Clicked && window.getComputedStyle(image2).opacity === "1") {
+    startWiggleLoop();
+  }
+}, 1200);
+
+
+      // Reopen curtain
+      body.classList.add('curtain-open');
+    }, 500); // wait 0.5s after images fade
+  }, 1500); // curtain closed
+}, 5000); // initial delay
+
+    });
+    
+    // 👉 Khi chuột vào image-wrapper
+    imageWrapper.addEventListener("mouseenter", () => {
+      cursorRing.style.display = "block";
+      revealWrapper.classList.add("show");
+      imageWrapper.style.cursor = 'url("assets/cursors/cursor-magnifyer.png"), auto';
+    });
+    
+    // 👉 Khi chuột rời image-wrapper
+    imageWrapper.addEventListener("mouseleave", () => {
+      cursorRing.style.display = "none";
+      revealWrapper.classList.remove("show");
+    
+      revealWrapper.style.setProperty("--x", `50%`);
+      revealWrapper.style.setProperty("--y", `50%`);
+    });
+    
+    // 👉 Khi chuột di chuyển trong image-wrapper
+    imageWrapper.addEventListener("mousemove", (e) => {
+      const rect = imageWrapper.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+    
+      const percentX = (x / rect.width) * 100;
+      const percentY = (y / rect.height) * 100;
+    
+      revealWrapper.style.setProperty("--x", `${percentX}%`);
+      revealWrapper.style.setProperty("--y", `${percentY}%`);
+    
+      cursorRing.style.left = `${e.clientX}px`;
+      cursorRing.style.top = `${e.clientY}px`;
+    });
+    
+    let wiggleInterval;
+    let image2Clicked = false;
+  
+    function startWiggleLoop() {
+  wiggleInterval = setInterval(() => {
+    if (image2Clicked) return;
+
+    image2.classList.remove('wiggle');
+    void image2.offsetWidth; // ← force reflow
+    image2.classList.add('wiggle');
+
+  }, 2000);
+}
+
+  
+image2.addEventListener('click', () => {
+  image2Clicked = true;
+  image2.classList.remove('wiggle');
+  clearInterval(wiggleInterval);
+
+  // Add fall animation
+  setTimeout(() => {
+  image2.classList.add('fall');
+  const audio = document.getElementById('beheaded-sound');
+audio.play();
+
+}, 500); // Delay fall 0.2s
+const redOverlay = document.getElementById('red-overlay');
+
+// Optional: auto fade out after 1s
+setTimeout(() => {
+  redOverlay.classList.add('show');
+}, 1000);setTimeout(() => {
+    body.classList.remove('curtain-open');
+}, 1500);
+const end = document.getElementById('end-text');
+
+setTimeout(() => {
+  end.classList.add('show');
+}, 3000);
+
+
+});
+
+  
+    // Start loop only when image2 is visible
+    image2.addEventListener('animationend', () => {
+  if (image2.classList.contains('show-phase2') && !image2Clicked) {
+    startWiggleLoop();
+  }
+});
+
+  </script>
+  <audio id="beheaded-sound" src="assets/act5/beheaded.mp3"></audio>
+
+</body>
+</html>

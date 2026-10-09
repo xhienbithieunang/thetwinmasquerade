@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Act IV - The Twin Masquerade</title>
+  <link rel="stylesheet" href="act4.css" />
+</head>
+<body class="curtain-open">
+    <div class="curtain-left"></div>
+<div class="curtain-right"></div>
+
+  <div class="act-container">
+    <!-- ACT CONTENT -->
+    <div class="act-content clickable">
+      <h1 class="act-title">Act IV</h1>
+      <p class="act-line">The Price of Grace</p>
+    </div>
+
+    <!-- IMAGES -->
+    <img src="assets/act4/4-1-1.png" alt="Act 4 Image Left" class="act-image" id="image1" />
+    <img src="assets/act4/4-1-2.png" alt="Act 4 Image Right" class="act-image" id="image2" />
+    <img src="assets/act4/4-2-1.png" class="act-image phase2" id="image4" /> <!-- under layer -->
+    <div id="reveal-wrapper" class="reveal-mask">
+<img src="assets/act4/BG1.png" class="act-BG phase2 reveal-mask" id="bg3" />
+<img src="assets/act4/4-2-2.png" id="image3" class="act-image phase2 reveal-mask" />
+    </div>
+    <img src="assets/act4/4-2-3.png" id="image5" class="act-image phase3" />
+
+<div id="cursor-ring"></div>
+<button id="war-button"> Start the WAR</button>
+
+<div class="chat" id="chat1">
+  <img src="assets/talkballoon.png" alt="Speech Bubble">
+  <h1>Let's swap clothes</h1>
+</div>
+
+    <!-- POETRY -->
+    <div class="act-poetry">
+      <p>
+        Her blood ran red. The boy cried flame.<br/>
+        The people rose. They screamed her name.<br/>
+        The kingdom cracked beneath the weight<br/>
+        Yet still I knelt. I sealed my fate.
+      </p>
+    </div>
+  </div>
+  <div id="end-text" class="end-text">To be continued...</div>
+
+  <script>
+  const actContent = document.querySelector('.act-content');
+const image1 = document.getElementById('image1');
+const image2 = document.getElementById('image2');
+const image3 = document.getElementById('image3');
+const image4 = document.getElementById('image4');
+const bg3 = document.getElementById('bg3');
+const revealMask = document.querySelector(".reveal-mask");
+const actPoetry = document.querySelector('.act-poetry');
+const body = document.body;
+const actContainer = document.querySelector('.act-container');
+const phase2Targets = [image3, bg3, image4];
+
+console.log('Showing chat1:', chat1);
+
+
+
+  actContent.addEventListener('click', () => {
+    actContent.classList.add('hide');
+    const clickSound = document.getElementById('click-sound');
+clickSound.currentTime = 0;
+clickSound.play().catch(() => {});
+
+
+    setTimeout(() => {
+      actContent.remove();
+      image1.classList.add('show');
+      actPoetry.classList.add('show');
+    }, 500);
+
+    // 👇 Delay image2 by 3s, then slide in from right
+    setTimeout(() => {
+      image2.classList.add('slide-in');
+    }, 1000);
+     // Close curtain after 4s
+  setTimeout(() => {
+    body.classList.remove('curtain-open');
+  }, 4000);
+
+  // Change background and transition elements after curtain fully closed
+  setTimeout(() => {
+    // Change background
+    actContainer.style.backgroundImage = "url('assets/act4/BG3.png')";
+
+    // Hide phase 1 images
+    image1.classList.remove('show');
+    image2.classList.remove('show', 'slide-in');
+
+    // Show phase 2 images
+    document.getElementById('war-button').classList.add('show');
+    image3.classList.add('show-phase2');
+    image4.classList.add('show-phase2');
+    bg3.classList.add('show-phase2');
+  }, 5500); // Give curtain ~1.5s to fully close
+
+  // Reopen curtain
+  setTimeout(() => {
+    body.classList.add('curtain-open');
+  }, 6500);
+  });
+ const container = document.querySelector('.act-container');
+  const maskedElems = document.querySelectorAll('.reveal-mask');
+
+  container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    maskedElems.forEach(elem => {
+      elem.style.setProperty('--x', `${x}%`);
+      elem.style.setProperty('--y', `${y}%`);
+    });
+  });
+  const cursorRing = document.getElementById('cursor-ring');
+
+// Track if ring should be shown
+let isRingVisible = false;
+
+container.addEventListener('mousemove', (e) => {
+  if (!isRingVisible) return; // 🛑 Don't update if ring isn't active
+
+  const x = `${e.clientX}px`;
+  const y = `${e.clientY}px`;
+
+  cursorRing.style.left = x;
+  cursorRing.style.top = y;
+
+  maskedElems.forEach(elem => {
+    elem.style.setProperty('--x', x);
+    elem.style.setProperty('--y', y);
+  });
+});
+
+phase2Targets.forEach(el => {
+  el.addEventListener("mouseenter", () => {
+    isRingVisible = true;
+    cursorRing.style.display = "block";
+  });
+
+  el.addEventListener("mouseleave", () => {
+    isRingVisible = false;
+    cursorRing.style.display = "none";
+  });
+});
+const warButton = document.getElementById('war-button');
+const curtainLeft = document.querySelector('.curtain-left');
+const curtainRight = document.querySelector('.curtain-right');
+
+warButton.addEventListener('click', () => {
+  // Disable and fade button immediately
+  warButton.disabled = true;
+  warButton.style.opacity = 0.3;
+
+  // Start closing curtain
+  setTimeout(() => {
+    body.classList.remove('curtain-open');
+
+    // ✅ Hide WAR button when curtain is closed
+    warButton.style.display = 'none';
+  }, 800);
+
+  // Swap content while curtain is closed
+  setTimeout(() => {
+    image3.remove();
+    image4.remove();
+    bg3.remove();
+
+    // Show new background
+    actContainer.style.backgroundImage = "url('assets/act4/BG4.png')";
+
+    
+// Show chat
+const chat1 = document.getElementById('chat1');
+    // Reopen curtain
+    setTimeout(() => {
+      body.classList.add('curtain-open');
+      // Show image5
+    const image5 = document.getElementById('image5');
+    image5.classList.add('show');
+      setTimeout(() => {
+      chat1.classList.add('show');
+    }, 2000);
+    setTimeout(() => {
+    const endText = document.getElementById('end-text');
+    endText.classList.add('show');
+  }, 3000);
+    }, 500);
+  }, 3000);
+});
+
+
+
+</script>
+<audio id="click-sound" src="assets/act4/riser.mp3" preload="auto"></audio>
+
+</body>
+</html>

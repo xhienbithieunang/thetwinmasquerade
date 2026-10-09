@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Twin Masquerade</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="nav-prev" class="nav-button nav-left clickable" style="display: none;"></div>
+      <div id="nav-next" class="nav-button nav-right clickable" style="display: none;"></div>
+   <div class="scale-wrapper">
+    <div id="container">
+      
+
+    <div class="frame"></div>
+    
+    <div id="stage">
+      <!-- Mute/Unmute Toggle Button -->
+<div id="muteToggle" class="mute-unmuted"></div>
+
+        <div class="poetry-title">The Twin Masquerade</div>
+        <button class="enter-button clickable">Consume the art</button>
+      <div class="curtain left"></div>
+      <div class="curtain right"></div>
+      <img src="assets/main_page/curtain1.png" alt="Center Curtain" class="curtain center" />
+
+      <iframe src="act1.html"></iframe>
+      <!-- Navigation Arrows (Hidden initially) -->
+
+      
+    </div>
+    </div>
+    
+  </div>
+  
+  <script>
+    const button = document.querySelector('.enter-button');
+    const title = document.querySelector('.poetry-title');
+    const curtainLeft = document.querySelector('.curtain.left');
+    const curtainRight = document.querySelector('.curtain.right');
+    const iframe = document.querySelector('iframe');
+    const navPrev = document.getElementById('nav-prev');
+    const navNext = document.getElementById('nav-next');
+    const bgMusic = document.getElementById('bg-music'); // Make sure this exists
+    const clickSound = document.getElementById('click-sound');
+    const muteToggle = document.getElementById('muteToggle');
+
+
+  
+    let currentAct = 1;
+    const totalActs = 5;
+  
+    function updateIframe() {
+      iframe.src = `act${currentAct}.html`;
+    }
+  
+    function updateNavVisibility() {
+      navPrev.style.display = currentAct > 1 ? 'block' : 'none';
+      navNext.style.display = currentAct < totalActs ? 'block' : 'none';
+    }
+  
+    function transitionToAct(newActNumber) {
+      // Close curtains
+      curtainLeft.classList.remove('open-left');
+      curtainRight.classList.remove('open-right');
+  
+      // Wait for curtain to close before switching iframe
+      setTimeout(() => {
+        currentAct = newActNumber;
+        updateIframe();
+        updateNavVisibility(); // Update button visibility after act changes
+  
+        // Open curtains again after switch
+        setTimeout(() => {
+          curtainLeft.classList.add('open-left');
+          curtainRight.classList.add('open-right');
+        }, 100);
+      }, 2500); // matches curtain close animation duration
+    }
+  
+    function openCurtains() {
+      // Hide title and button
+      title.classList.add('hide');
+      button.classList.add('hide');
+      const clickSound = document.getElementById('click-sound');
+
+  clickSound.volume = 0.3; // ✅ Set volume here where it's defined
+  clickSound.currentTime = 0;
+  clickSound.play().catch(() => {});
+  
+      // Animate curtains open
+      curtainLeft.classList.add('open-left');
+      curtainRight.classList.add('open-right');
+  
+      // Set initial iframe and nav buttons
+      currentAct = 1;
+      updateIframe();
+      updateNavVisibility(); // ✅ now runs only after user clicks start
+    }
+  
+    // Navigation events
+    navNext.addEventListener('click', () => {
+      if (currentAct < totalActs) {
+        transitionToAct(currentAct + 1);
+      }
+    });
+  
+    navPrev.addEventListener('click', () => {
+      if (currentAct > 1) {
+        transitionToAct(currentAct - 1);
+      }
+    });
+  
+    // Start button and title
+    button.addEventListener('click', openCurtains);
+    title.addEventListener('click', openCurtains);
+  
+    // Scaling logic for full screen scaling
+    function scaleStage() {
+      const container = document.getElementById('container');
+      const scaleWrapper = document.querySelector('.scale-wrapper');
+  
+      const scaleX = scaleWrapper.clientWidth / 1920;
+      const scaleY = scaleWrapper.clientHeight / 1080;
+      const baseScale = Math.min(scaleX, scaleY);
+  
+      const desiredScale = baseScale * 0.9; // scale down to 90%
+      container.style.transform = `scale(${desiredScale})`;
+    }
+  
+    window.addEventListener('load', scaleStage);
+    window.addEventListener('resize', scaleStage);
+
+// ✅ Mute toggle behavior
+muteToggle.addEventListener('click', () => {
+  const clickSound = document.getElementById('click-sound');
+
+  const shouldMute = !clickSound.muted;
+
+  clickSound.muted = shouldMute;
+  if (shouldMute) {
+    muteToggle.classList.add('mute-muted');
+    muteToggle.classList.remove('mute-unmuted');
+  } else {
+    muteToggle.classList.remove('mute-muted');
+    muteToggle.classList.add('mute-unmuted');
+  }
+});
+
+
+    
+  </script>
+  
+  
+    
+<audio id="click-sound" src="assets/main_page/BGmusic.mp3" preload="auto"></audio>
+
+</body>
+</html>
+
